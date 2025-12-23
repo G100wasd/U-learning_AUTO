@@ -100,6 +100,7 @@ for rate in learn_rate_list:
 main_window = driver.current_window_handle
 main_url = driver.current_url
 
+count =2
 learn_btn_list[count].click()
 print(f"从专题{count+1}开始")
 
@@ -221,7 +222,7 @@ except Exception as e:
 
 # ====== 跳过提示 =====
 try:
-    t.sleep(3)
+    t.sleep(2)
 
     pass_btn = driver.find_elements(By.CLASS_NAME, 'close-btn')[1]
     print(pass_btn.text)
@@ -277,12 +278,12 @@ for i in range(count, len(chapter_items)):
                 video_play_btn.click()
                 print("> 开始播放")
                 print(f"> 消耗时间{pause_count*60}s (时间会比视频时间长 为了避免某些神秘的bug)")
-                for j in range(pause_count+1):
-                    t.sleep(60)
-                    actions.click(video_play_btn).perform()
-                    print(f"> 防止挂机检测X{j+1}")
-                    t.sleep(1)
-                    actions.click(video_play_btn).perform()
+                #for j in range(pause_count+1):
+                #    t.sleep(60)
+                #    actions.click(video_play_btn).perform()
+                #    print(f"> 防止挂机检测X{j+1}")
+                #    t.sleep(1)
+                #    actions.click(video_play_btn).perform()
 
                 print("> 播放结束")
                 
@@ -290,7 +291,7 @@ for i in range(count, len(chapter_items)):
  
             except:
                 try:
-                    submit_btn = driver.find_element(By.CLASS_NAME, 'question-view').find_element(By.CLASS_NAME, 'btn-submit')
+                    submit_btn = driver.find_element(By.CLASS_NAME, 'question-operation-area').find_element(By.CLASS_NAME, 'btn-submit')
                     t.sleep(1)
                     print("> 当前部分为:  小测")
                     question_list = driver.find_elements(By.CLASS_NAME, 'question-element-node')
@@ -308,18 +309,22 @@ for i in range(count, len(chapter_items)):
                             actions.click(choice_check).perform()
                         t.sleep(1)
 
-                    driver.execute_script("arguments[0].scrollIntoView();", driver.find_element(By.CLASS_NAME, 'question-operation-area'))
-                    t.sleep(3)
-                    print("q")
-                    driver.execute_script("arguments[0].click();", submit_btn)
+                    
                     t.sleep(1)
+                    actions.click(submit_btn).perform()
+                    #driver.execute_script("$(arguments[0]).click()",submit_btn)
+                    t.sleep(5)
                     print("> 小测已完成")
                     print("> 当然是全选A和全选对 😋")
                     t.sleep(1)
                     
 
-                except:
+                except Exception as e:
                     print("< ERROR:404 >")
+                    print(">===============<")
+                    print(e)
+                    print(">===============<")
+
 
             print(">---------")
             print()
