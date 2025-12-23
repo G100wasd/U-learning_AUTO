@@ -8,13 +8,21 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time as t
 
 
-print("██████╗ ██╗  ██╗██╗███╗   ██╗███████╗    ██╗      █████╗ ██████╗ ")
-print("██╔══██╗██║  ██║██║████╗  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗")
-print("██████╔╝███████║██║██╔██╗ ██║█████╗      ██║     ███████║██████╔╝")
-print("██╔══██╗██╔══██║██║██║╚██╗██║██╔══╝      ██║     ██╔══██║██╔══██╗")
-print("██║  ██║██║  ██║██║██║ ╚████║███████╗    ███████╗██║  ██║██████╔╝")
-print("╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝    ╚══════╝╚═╝  ╚═╝╚═════╝ ")
-print("                                                                 ")
+print("█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗")
+print("╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝")
+print("                                                                  ")
+print("██████╗ ██╗  ██╗██╗███╗   ██╗███████╗    ██╗      █████╗ ██████╗  ")
+print("██╔══██╗██║  ██║██║████╗  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗ ")
+print("██████╔╝███████║██║██╔██╗ ██║█████╗      ██║     ███████║██████╔╝ ")
+print("██╔══██╗██╔══██║██║██║╚██╗██║██╔══╝      ██║     ██╔══██║██╔══██╗ ")
+print("██║  ██║██║  ██║██║██║ ╚████║███████╗    ███████╗██║  ██║██████╔╝ ")
+print("╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝    ╚══════╝╚═╝  ╚═╝╚═════╝  ")
+print("                                                                  ")
+print("█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗")
+print("╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝")
+
+print('如果程序报错了 请检查你的输入是不是错的 <ERROR:404>不用管')
+
 
 def parse_cookies(cookie_str):
     """
@@ -42,7 +50,16 @@ def parse_cookies(cookie_str):
     
     return cookies_list
 
-cookies_list = parse_cookies(input("输入你的cookie"))
+try:
+    cookies_list = parse_cookies(input("输入你的cookie\n"))
+except:
+    print('何意味')
+    quit()
+
+url = input("目标刷课界面网址\n")
+
+
+
 
 qt = Options()
 qt.add_argument("--no-sandbox")
@@ -74,7 +91,12 @@ for cookie in all_cookies:
 driver.refresh()
 t.sleep(2)
 
-driver.get("https://lms.dgut.edu.cn/ulearning/index.html#/course/textbook?courseId=153698")
+try:
+    driver.get(url)
+except:
+    print("何意味")
+    quit()
+
 t.sleep(2)
 try:
     close_btn = driver.find_element(By.CLASS_NAME, 'modal-dialog-container').find_element(By.CLASS_NAME, 'button')
@@ -95,12 +117,9 @@ for rate in learn_rate_list:
             break
     count+=1
 
-
-
 main_window = driver.current_window_handle
 main_url = driver.current_url
 
-count =2
 learn_btn_list[count].click()
 print(f"从专题{count+1}开始")
 
@@ -278,12 +297,12 @@ for i in range(count, len(chapter_items)):
                 video_play_btn.click()
                 print("> 开始播放")
                 print(f"> 消耗时间{pause_count*60}s (时间会比视频时间长 为了避免某些神秘的bug)")
-                #for j in range(pause_count+1):
-                #    t.sleep(60)
-                #    actions.click(video_play_btn).perform()
-                #    print(f"> 防止挂机检测X{j+1}")
-                #    t.sleep(1)
-                #    actions.click(video_play_btn).perform()
+                for j in range(pause_count):
+                    t.sleep(60)
+                    actions.click(video_play_btn).perform()
+                    print(f"> 防止挂机检测X{j+1}")
+                    t.sleep(1)
+                    actions.click(video_play_btn).perform()
 
                 print("> 播放结束")
                 
@@ -321,9 +340,6 @@ for i in range(count, len(chapter_items)):
 
                 except Exception as e:
                     print("< ERROR:404 >")
-                    print(">===============<")
-                    print(e)
-                    print(">===============<")
 
 
             print(">---------")
