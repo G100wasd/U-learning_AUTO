@@ -282,7 +282,7 @@ for i in range(count, len(chapter_items)):
             try:
                 video_player = driver.find_element(By.CLASS_NAME, 'video-container')
                 print("> 当前部分为:  视频")
-                t.sleep(1)
+                t.sleep(5)
                 video_control = video_player.find_element(By.CLASS_NAME, 'mejs__controls')
                 video_time = video_control.find_element(By.CLASS_NAME, 'mejs__duration')
                 video_sound_btn = video_control.find_element(By.CLASS_NAME, 'mejs__volume-button').find_element(By.XPATH, './button')
@@ -340,6 +340,7 @@ for i in range(count, len(chapter_items)):
 
                 except Exception as e:
                     print("< ERROR:404 >")
+                    print(e)
 
 
             print(">---------")
