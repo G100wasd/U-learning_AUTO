@@ -87,7 +87,7 @@ try:
     print("> 成功")
 except Exception as e: 
     print("> 失败")
-    print("> 发生报错:\n{e}")
+    print(f"> 发生报错:\n{e}")
     print("> 程序已退出")
     quit()
 print("======================")
@@ -148,18 +148,25 @@ print("╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚
 print("\n======================")
 print("> 主程序已启动\n")
 print("-----------------------")
-learn_list = driver.find_element(By.CLASS_NAME, 'textbook-tab-list').find_elements(By.CLASS_NAME, 'textbook-tab-item')
-print(f"> 共有{len(learn_list)}个学习界面")
-for i in range(len(learn_list)):
-    print(f"> {i+1}.{learn_list[i].text}")
-print("-----------------------")
+is_list = False
+learn_list = [0]
+try:
+    learn_list = driver.find_element(By.CLASS_NAME, 'textbook-tab-list').find_elements(By.CLASS_NAME, 'textbook-tab-item')
+    print(f"> 共有{len(learn_list)}个学习界面")
+    for i in range(len(learn_list)):
+        print(f"> {i+1}.{learn_list[i].text}")
+    print("-----------------------")
+    is_list = True
+except:
+    pass
 
 for current_learn_page in learn_list:
     handle = driver.current_window_handle
     print("\n-----------------------")
-    print(f"> 当前目标:{current_learn_page.text}")
-    actions.click(current_learn_page).perform()
-    t.sleep(2)
+    if(is_list):
+        print(f"> 当前目标:{current_learn_page.text}")
+        actions.click(current_learn_page).perform()
+        t.sleep(2)
 
     learn_rate_list = driver.find_element(By.CLASS_NAME, 'directory-table').find_elements(By.XPATH, '//td[2]/span')
     learn_btn = driver.find_element(By.CLASS_NAME, 'directory-table').find_elements(By.CLASS_NAME, 'button-red-hollow')
