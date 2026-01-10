@@ -267,16 +267,18 @@ for current_learn_page in learn_list:
             t.sleep(3)  
     except Exception as e:
         print(f"处理新窗口时出错: {e}")
-    # ======= 结束 =======
-    t.sleep(1)
+
+
+
     # ====== 跳过提示 =======
-    try:
-        tip_skip_btn = driver.find_element(By.CLASS_NAME, 'operation').find_element(By.CLASS_NAME, 'close-btn')
-        actions.click(tip_skip_btn).perform()
-        print("> 跳过所有提示")
-    except:
-        pass
-    # ======= 结束 ======
+    for i in range(2):
+        try:
+            tip_skip_btn = driver.find_element(By.CLASS_NAME, 'operation').find_element(By.CLASS_NAME, 'close-btn')
+            t.sleep(5)
+            actions.click(tip_skip_btn).perform()
+            #print("> 跳过所有提示")
+        except:
+            pass
 
     chapter_list = driver.find_element(By.CLASS_NAME, 'catalog-list').find_elements(By.CLASS_NAME, 'chapter-item')
     print(f"> 该部分有{len(chapter_list)}个专题")
@@ -349,12 +351,12 @@ for current_learn_page in learn_list:
                         t.sleep(1)
 
                         # ===== 每60s自动暂停一次视频 防止脚本/挂机检测 =====
-                        #for i in range(cost_time):
-                        #    t.sleep(60)
-                        #    actions.click(video_play_btn).perform()
-                        #    #print(f">   防挂机检测X{i+1}")
-                        #    t.sleep(1)
-                        #    actions.click(video_play_btn).perform()
+                        for i in range(cost_time):
+                            t.sleep(60)
+                            actions.click(video_play_btn).perform()
+                            #print(f">   防挂机检测X{i+1}")
+                            t.sleep(1)
+                            actions.click(video_play_btn).perform()
                         t.sleep(1)
                 
                 except:
@@ -406,7 +408,7 @@ for current_learn_page in learn_list:
     t.sleep(1)
     driver.switch_to.window(handle)
 
-
+t.sleep(600)
 print("<程序已经运行结束>")
 driver.quit()
 quit()
